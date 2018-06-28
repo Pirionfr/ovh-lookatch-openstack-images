@@ -1,0 +1,4 @@
+---
+service_password: admin
+use_dns: true
+debug: false

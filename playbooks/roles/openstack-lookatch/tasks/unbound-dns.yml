@@ -1,0 +1,8 @@
+---
+- name: Install Unbound
+  yum:
+    name: "unbound"
+    state: present
+    update_cache: yes
+  ignore_errors: true
+

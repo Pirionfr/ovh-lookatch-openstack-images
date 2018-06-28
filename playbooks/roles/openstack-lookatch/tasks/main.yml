@@ -1,0 +1,50 @@
+---
+- name: Load OS specific variables
+  include_vars: redhat-7.yml
+
+- name: Install epel-release
+  yum:
+    name: "{{ epel_yum }}"
+    state: present
+    update_cache: yes
+  ignore_errors: true
+  register: epel_result
+
+- name: Install epel-release (rpm)
+  yum:
+    name: "{{ epel_rpm_url }}"
+    state: present
+  when: epel_result is failed
+
+- name: Ensure required packages are installed (yum)
+  yum:
+    name: "{{ item }}"
+    update_cache: yes
+    state: installed
+  with_items: "{{ packages|default([]) }}"
+
+- name: Upgrade all packages (yum)
+  yum: name=* state=latest
+  when: ansible_os_family == "RedHat"
+
+- name: Make sure the NTP service is stopped
+  service: name={{ ntp_service }} state=stopped
+
+- name: Force NTP sync
+  command: "{{ ntp_sync }}"
+
+- name: Start the NTP service
+  service: name={{ ntp_service }} state=started enabled=yes
+
+- name: Reconfigure resolv.conf search
+  lineinfile: dest={{ resolv_conf }}
+              create=yes
+              regexp='^search\s+(?! {{ ansible_domain }} ).*$'
+              line='search {{ ansible_domain }}'
+  when: ansible_domain != "" and not use_dns
+  notify: Run resolvconf
+
+- include: unbound-dns.yml
+  when: use_dns
+
+- include: lookatch.yml

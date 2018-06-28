@@ -1,0 +1,19 @@
+---
+
+agent_name: lookatch
+agent_user: lookatch
+agent_group: lookatch
+agent_bin_path: /usr/local/bin
+agent_conf_path: /etc/lookatch
+
+agent_url_base : https://github.com/Pirionfr/lookatch-agent/releases/download
+agent_version: untagged-9a88f194f281fa3c57df
+
+agent_release_url: "{{ agent_url_base }}/{{ agent_version }}/lookatch-agent"
+
+agent_auth_url: "https://datacollector.ovh.com/auth/token"
+
+
+agent_controller_address: "controller.datacollector.ovh.com"
+agent_controller_port: 443
+agent_controller_secure: true

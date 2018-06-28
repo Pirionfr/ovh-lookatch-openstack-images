@@ -1,0 +1,11 @@
+---
+
+- name: Apply Lookatch role to the image
+  hosts: all
+  any_errors_fatal: true
+  become: yes
+  pre_tasks:
+    - name: Include lookatch vars
+      include_vars: group_vars/lookatch
+  roles:
+    - openstack-lookatch

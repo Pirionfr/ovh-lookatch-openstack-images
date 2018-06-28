@@ -1,0 +1,18 @@
+[Unit]
+Description=Lookatch
+After=network.target
+ConditionPathExists={{ agent_conf_path }}/config.json
+
+[Service]
+Type=simple
+User={{ agent_user }}
+SyslogIdentifier={{ agent_name }}
+WorkingDirectory=/home/{{ agent_user }}
+ExecStart={{ agent_bin_path }}/lookatch-agent run -c {{ agent_conf_path }}/config.json
+KillMode=process
+KillSignal=SIGIN
+Restart=on-failure
+LimitNOFILE=512000
+
+[Install]
+WantedBy=multi-user.target

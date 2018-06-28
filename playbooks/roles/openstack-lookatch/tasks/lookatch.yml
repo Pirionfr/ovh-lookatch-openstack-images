@@ -1,0 +1,51 @@
+---
+
+- name: Lookatch | create group
+  group:
+    name: "{{ agent_group }}"
+    state: present
+
+- name: Lookatch | create user
+  user: 
+    name: "{{ agent_user }}"
+    group: "{{ agent_group }}"
+    home: "/home/{{ agent_user }}"
+    shell: /bin/bash
+    state: present
+    comment: "lookatch user"
+
+- name: Lookatch | Download last release
+  get_url:
+    url: "{{ agent_release_url }}"
+    dest: "{{ agent_bin_path }}/lookatch-agent"
+    mode: 0755
+
+- name: Lookatch | create configuration directory
+  file:
+    recurse: yes
+    path: "{{ agent_conf_path }}"
+    mode: 0755
+    state: directory
+
+- name: Lookatch | Generate configuration
+  template:
+      src: config.json.j2
+      dest: "{{ agent_conf_path }}/config.json"
+      mode: 0755
+
+- name: Lookatch | Generate Systemd service
+  template:
+    src: lookatch.service.j2
+    dest: "/usr/lib/systemd/system/lookatch-agent.service"
+    mode: 0755
+
+- name: Lookatch | link Systemd service to multi-user
+  file:
+    src: "/usr/lib/systemd/system/lookatch-agent.service"
+    dest: "/etc/systemd/system/multi-user.target.wants/lookatch-agent.service"
+    state: link
+
+
+#- name: Lookatch | reload Systemd service
+#  systemd:
+#    daemon_reload: yes
