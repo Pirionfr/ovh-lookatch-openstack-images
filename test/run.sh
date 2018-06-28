@@ -34,7 +34,6 @@ build(){
     echo "Detected Ext-Net on $OS_REGION_NAME on ID $PACKER_NETWORK_ID"
     echo "Starting build for region $OS_REGION_NAME..."
     ${PACKERBIN} build \
-        -var source_image=$(openstack image list --name="Analytics Base image" --status active --property "commit=$COMMIT" -f value -c ID)\
         -var version=${VERSION} \
         -var commit=${COMMIT} \
         ${IMAGE}

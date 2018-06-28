@@ -2,10 +2,10 @@
 
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 
-if [ ! -f "$BASEDIR/.ovh.travis.gpg" ]; then
-    echo "Missing .ovh.travis gpg key, won't be able to sign files" >&2
+if [ ! -f "$BASEDIR/.lookatch.travis.gpg" ]; then
+    echo "Missing .lookatch.travis gpg key, won't be able to sign files" >&2
 else
-    gpg --import "$BASEDIR/.ovh.travis.gpg"
+    gpg --import "$BASEDIR/.lookatch.travis.gpg"
 fi
 
 if [ -z "$GPG_PASS" ]; then

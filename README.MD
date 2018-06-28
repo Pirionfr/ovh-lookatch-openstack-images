@@ -1,6 +1,6 @@
 # Openstack OVH Lookatch images
 
-![Travis](https://travis-ci.com/Pirionfr/ovh-lookatch-openstack-images.svg?branch=master)
+![Travis](https://travis-ci.org/Pirionfr/ovh-lookatch-openstack-images.svg?branch=master)
 
 Packer and Ansible scripts to build Openstack base images for lookatch deployment.
 
@@ -21,5 +21,7 @@ export OS_REGION_NAME=xxxx
 Build lookatch base images used by Terraform for lookatch deployment on OVH
 Public Cloud infrastructure:
 
-```./packer.sh```
+```
+./packer.sh
+```
 
